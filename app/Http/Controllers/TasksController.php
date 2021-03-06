@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class MicropostsController extends Controller
+class TasksController extends Controller
 {
     public function index()
     {
@@ -14,11 +14,11 @@ class MicropostsController extends Controller
             $user = \Auth::user();
             // ユーザの投稿の一覧を作成日時の降順で取得
             // （後のChapterで他ユーザの投稿も取得するように変更しますが、現時点ではこのユーザの投稿のみ取得します）
-            $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
 
             $data = [
                 'user' => $user,
-                'microposts' => $microposts,
+                'tasks' => $tasks,
             ];
         }
 
@@ -33,7 +33,7 @@ class MicropostsController extends Controller
         ]);
 
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
-        $request->user()->microposts()->create([
+        $request->user()->tasks()->create([
             'content' => $request->content,
         ]);
 
@@ -43,11 +43,11 @@ class MicropostsController extends Controller
     public function destroy($id)
     {
         // idの値で投稿を検索して取得
-        $micropost = \App\Micropost::findOrFail($id);
+        $tasks = \App\Tasks::findOrFail($id);
 
         // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
-        if (\Auth::id() === $micropost->user_id) {
-            $micropost->delete();
+        if (\Auth::id() === $tasks->user_id) {
+            $task->delete();
         }
 
         // 前のURLへリダイレクトさせる

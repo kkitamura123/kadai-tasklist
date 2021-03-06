@@ -13,7 +13,7 @@ class CreateMicropostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('microposts', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('content');
@@ -26,6 +26,6 @@ class CreateMicropostsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('microposts');
+        Schema::dropIfExists('tasks');
     }
 }
